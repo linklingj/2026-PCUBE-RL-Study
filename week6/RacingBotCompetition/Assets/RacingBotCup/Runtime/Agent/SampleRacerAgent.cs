@@ -47,7 +47,26 @@ namespace RacingBotCup.Agent
 
         [SerializeField] float m_FailurePenalty = 3f;
 
+        [Header("Collision penalty")]
+        [Tooltip("Charged when the car loses speed far faster than the brakes or the grass could take it — i.e. it hit something. Scales up to double this on a full-speed hit.")]
+        [SerializeField] float m_ImpactPenalty = 3f;
+
+        [Tooltip("Deceleration (m/s^2) above which a speed loss counts as an impact. Full braking peaks near 25 and four wheels on the grass near 15, so keep this above both.")]
+        [SerializeField] float m_ImpactDecelThreshold = 35f;
+
+        [Tooltip("A throttle at or below this is the brake pedal, and losing speed with it pressed is intentional rather than a crash.")]
+        [SerializeField] float m_BrakeThreshold = -0.05f;
+
+        [Tooltip("Below this speed (m/s) a knock is not worth charging for.")]
+        [SerializeField] float m_ImpactMinSpeed = 3f;
+
+        [Tooltip("Seconds of quiet before another impact can be charged, so one crash spread over several decisions is billed once.")]
+        [SerializeField] float m_ImpactCooldown = 0.5f;
+
         float m_LastProgress;
+        float m_LastSpeed;
+        float m_LastSpeedTime;
+        float m_ImpactCooldownRemaining;
 
         /// <summary>
         /// Total floats written below. Put this number in BehaviorParameters →
@@ -122,6 +141,56 @@ namespace RacingBotCup.Agent
             {
                 AddReward(-m_OffTrackPenalty);
             }
+
+            ChargeForImpact(throttle);
+        }
+
+        /// <summary>
+        /// Charges hard for hitting something — an obstacle on an ObstacleStraight, a prop off the
+        /// side of the road. The car exposes no collision callback, so an impact is inferred from the
+        /// telemetry instead: speed collapsing far faster than anything the driver asked for.
+        ///
+        /// Two things keep honest driving out of it. Braking is excluded by the throttle sign, and the
+        /// threshold sits above what the car can shed on its own — full braking is roughly 25 m/s^2
+        /// and the off-road drag another 15, while running into something stationary is an order of
+        /// magnitude more. Speed magnitude rather than forward speed is what is watched, so a spin,
+        /// which rotates the velocity without destroying it, does not read as a crash.
+        /// </summary>
+        void ChargeForImpact(float throttle)
+        {
+            var speed = Car.Speed;
+            var now = Time.fixedTime;
+            var deltaTime = now - m_LastSpeedTime;
+            var previousSpeed = m_LastSpeed;
+
+            m_LastSpeed = speed;
+            m_LastSpeedTime = now;
+            m_ImpactCooldownRemaining = Mathf.Max(0f, m_ImpactCooldownRemaining - Mathf.Max(0f, deltaTime));
+
+            // Evaluation steps physics by hand and never advances Time.fixedTime, which would make
+            // the rate meaningless. Rewards do not exist there anyway.
+            if (deltaTime <= 0f)
+            {
+                return;
+            }
+
+            if (m_ImpactCooldownRemaining > 0f ||
+                previousSpeed < m_ImpactMinSpeed ||
+                throttle <= m_BrakeThreshold)
+            {
+                return;
+            }
+
+            var deceleration = (previousSpeed - speed) / deltaTime;
+            if (deceleration < m_ImpactDecelThreshold)
+            {
+                return;
+            }
+
+            // Twice the threshold or worse is a solid hit rather than a graze; charge double there.
+            var severity = Mathf.Clamp01((deceleration - m_ImpactDecelThreshold) / m_ImpactDecelThreshold);
+            AddReward(-m_ImpactPenalty * (1f + severity));
+            m_ImpactCooldownRemaining = m_ImpactCooldown;
         }
 
         public override void OnLapCompleted(float elapsedSeconds)
@@ -138,6 +207,9 @@ namespace RacingBotCup.Agent
         public override void OnEpisodeBegin()
         {
             m_LastProgress = 0f;
+            m_LastSpeed = 0f;
+            m_LastSpeedTime = Time.fixedTime;
+            m_ImpactCooldownRemaining = 0f;
             base.OnEpisodeBegin();
         }
 
