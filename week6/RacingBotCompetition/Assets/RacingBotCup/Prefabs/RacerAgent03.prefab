@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4274422391703370803}
   - component: {fileID: 3662915233229327701}
   m_Layer: 0
-  m_Name: RacerAgent
+  m_Name: RacerAgent03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,6 +34,7 @@ Transform:
   m_Children:
   - {fileID: 645982935264478201}
   - {fileID: 3075811572821609901}
+  - {fileID: 4641179156945278974}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5353018433771864802
@@ -50,7 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Policies.BehaviorParameters
   m_BrainParameters:
     VectorObservationSize: 21
-    NumStackedVectorObservations: 2
+    NumStackedVectorObservations: 3
     m_ActionSpec:
       m_NumContinuousActions: 2
       BranchSizes: 
@@ -87,11 +88,16 @@ MonoBehaviour:
   m_WaypointSpacing: 10
   m_CurvatureWindows: 3
   m_CurvatureWindowLength: 20
-  m_ProgressReward: 0.04
+  m_ProgressReward: 0.03
   m_TimePenalty: 0.001
   m_OffTrackPenalty: 0.01
   m_LapBonus: 20
   m_FailurePenalty: 3
+  m_ImpactPenalty: 3
+  m_ImpactDecelThreshold: 35
+  m_BrakeThreshold: -0.05
+  m_ImpactMinSpeed: 3
+  m_ImpactCooldown: 0.5
 --- !u!114 &3662915233229327701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,13 +123,77 @@ MonoBehaviour:
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 4294967039
-  m_ObservationStacks: 1
+  m_ObservationStacks: 2
   m_AlternatingRayOrder: 1
   m_UseBatchedRaycasts: 0
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
-  m_StartVerticalOffset: 2
-  m_EndVerticalOffset: -6.06
+  m_StartVerticalOffset: 1
+  m_EndVerticalOffset: -5.79
+--- !u!1 &1499172425292088024
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4641179156945278974}
+  - component: {fileID: 687782091109933953}
+  m_Layer: 0
+  m_Name: ray_veryfar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4641179156945278974
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499172425292088024}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3588502038055027793}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &687782091109933953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499172425292088024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Sensors.RayPerceptionSensorComponent3D
+  m_SensorName: front_veryfar
+  m_DetectableTags:
+  - Track
+  - OffTrack
+  - Obstacle
+  - Ramp
+  m_RaysPerDirection: 2
+  m_MaxRayDegrees: 34.9
+  m_SphereCastRadius: 0.4
+  m_RayLength: 1000
+  m_RayLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967039
+  m_ObservationStacks: 2
+  m_AlternatingRayOrder: 1
+  m_UseBatchedRaycasts: 0
+  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
+  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
+  m_StartVerticalOffset: 1
+  m_EndVerticalOffset: -7.31
 --- !u!1 &2674903976517261248
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +205,7 @@ GameObject:
   - component: {fileID: 645982935264478201}
   - component: {fileID: 5184701663343064280}
   m_Layer: 0
-  m_Name: ray_far
+  m_Name: ray_mid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,24 +238,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Sensors.RayPerceptionSensorComponent3D
-  m_SensorName: front_far
+  m_SensorName: front_mid
   m_DetectableTags:
   - Track
   - OffTrack
-  m_RaysPerDirection: 4
-  m_MaxRayDegrees: 58.6
+  - Obstacle
+  - Ramp
+  m_RaysPerDirection: 9
+  m_MaxRayDegrees: 69.8
   m_SphereCastRadius: 0.4
   m_RayLength: 60
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 4294967039
-  m_ObservationStacks: 1
+  m_ObservationStacks: 2
   m_AlternatingRayOrder: 1
   m_UseBatchedRaycasts: 0
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
-  m_StartVerticalOffset: 2
-  m_EndVerticalOffset: -1.78
+  m_StartVerticalOffset: 1
+  m_EndVerticalOffset: -2.21
 --- !u!1 &5929325250261080285
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,7 +269,7 @@ GameObject:
   - component: {fileID: 3075811572821609901}
   - component: {fileID: 6434660939230871500}
   m_Layer: 0
-  m_Name: ray_veryfar
+  m_Name: ray_far
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,21 +302,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Sensors.RayPerceptionSensorComponent3D
-  m_SensorName: front_veryfar
+  m_SensorName: front_far
   m_DetectableTags:
   - Track
   - OffTrack
-  m_RaysPerDirection: 3
-  m_MaxRayDegrees: 40
+  - Obstacle
+  - Ramp
+  m_RaysPerDirection: 6
+  m_MaxRayDegrees: 58.5
   m_SphereCastRadius: 0.4
   m_RayLength: 346
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 4294967039
-  m_ObservationStacks: 1
+  m_ObservationStacks: 2
   m_AlternatingRayOrder: 1
   m_UseBatchedRaycasts: 0
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
-  m_StartVerticalOffset: 2
-  m_EndVerticalOffset: -9.94
+  m_StartVerticalOffset: 1
+  m_EndVerticalOffset: -7.09

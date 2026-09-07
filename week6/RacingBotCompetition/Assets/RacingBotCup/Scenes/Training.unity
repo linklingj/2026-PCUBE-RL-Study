@@ -35249,7 +35249,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 657716353977145219, guid: 29d6ae13944a1754eb3caae6c9520e63, type: 3}
       propertyPath: m_Name
-      value: RacerAgent
+      value: RacerAgent02
       objectReference: {fileID: 0}
     - target: {fileID: 3588502038055027793, guid: 29d6ae13944a1754eb3caae6c9520e63, type: 3}
       propertyPath: m_LocalPosition.x
@@ -38511,7 +38511,7 @@ Transform:
   m_GameObject: {fileID: 1965839352169579447}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.12406239, z: -0, w: 0.99227446}
-  m_LocalPosition: {x: 275.72308, y: 0.7, z: -1.3889047}
+  m_LocalPosition: {x: 275.72308, y: 0.02, z: -1.3889047}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
