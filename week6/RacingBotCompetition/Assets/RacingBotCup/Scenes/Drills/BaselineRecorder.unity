@@ -267,10 +267,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: RacingBotCup.Runtime::RacingBotCup.Eval.BaselineTimeRecorder
   m_Pools:
-  - {fileID: 11400000, guid: b14b32cd949035944a30be844453c4df, type: 2}
+  - {fileID: 11400000, guid: 5cbed555e8963064594ba9d9a1c61f3f, type: 2}
   m_CarPrefab: {fileID: 261970089750296458, guid: 7c4fc65b87e5b6a4c9a2372431e9ff3d, type: 3}
-  m_AgentPrefab: {fileID: 1685875874712609360, guid: 5f105be380e1bb8499858399021a89e1, type: 3}
-  m_Model: {fileID: 5022602860645237092, guid: 4a957c0a0b928474bbef7ca1adbc8c04, type: 3}
+  m_AgentPrefab: {fileID: 657716353977145219, guid: 8fe1aa7e8fa53d347ad79b00f447af6c, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: ebe8ee7a0f911c94e8c3c1e27eb15634, type: 3}
   m_Materials:
     Road: {fileID: 2100000, guid: ee0d6048c2da67340873e5e7d3f0ec4e, type: 2}
     Runoff: {fileID: 2100000, guid: 3e588b5cc43def54d97ba8c071731dce, type: 2}
