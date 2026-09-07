@@ -70,6 +70,20 @@ namespace RacingBotCup.Agent
         public bool IsBound => m_Context != null;
 
         /// <summary>
+        /// The lap time this episode is being measured against, in seconds — a reference run's time
+        /// on this exact circuit plus a margin. Zero when nothing has set one.
+        ///
+        /// A reward paid for a lap time needs a target, and the target cannot be a constant: a
+        /// practice circuit is anywhere from 800 m to 2000 m long with a different corner mix each
+        /// time, so a time that is a good lap on one seed is an impossible one on the next. The
+        /// training arena looks the number up per seed and hands it over here before the episode
+        /// starts — see <see cref="TrainingArena"/> and <see cref="Track.SeedPool"/>.
+        /// </summary>
+        public float ReferenceTime { get; private set; }
+
+        public bool HasReferenceTime => ReferenceTime > 0f;
+
+        /// <summary>
         /// A point on the centreline this far ahead, in the car's local space.
         /// Positive Z is in front of the car, positive X is to its right.
         /// </summary>
@@ -112,6 +126,12 @@ namespace RacingBotCup.Agent
         public void Configure(bool manualStepping)
         {
             m_ManualStepping = manualStepping;
+        }
+
+        /// <summary>Sets the target lap time for the episode about to start. Training only.</summary>
+        public void SetReferenceTime(float seconds)
+        {
+            ReferenceTime = Mathf.Max(0f, seconds);
         }
 
         public void Bind(RaceContext context)
