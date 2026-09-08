@@ -88,11 +88,13 @@ MonoBehaviour:
   m_WaypointSpacing: 10
   m_CurvatureWindows: 3
   m_CurvatureWindowLength: 20
-  m_ProgressReward: 0.03
-  m_TimePenalty: 0.001
-  m_OffTrackPenalty: 0.01
-  m_LapBonus: 20
+  m_OnReferenceReward: 1
+  m_TimeExponent: 4
+  m_OvershootScale: 2
+  m_OvershootExponent: 3
   m_FailurePenalty: 3
+  m_ProgressReward: 0.02
+  m_OffTrackPenalty: 0.005
   m_ImpactPenalty: 3
   m_ImpactDecelThreshold: 35
   m_BrakeThreshold: -0.05
