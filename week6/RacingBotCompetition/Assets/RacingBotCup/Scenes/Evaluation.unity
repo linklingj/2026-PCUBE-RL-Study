@@ -395,12 +395,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: RacingBotCup.Runtime::RacingBotCup.Eval.RaceEvaluator
   m_ParticipantId: jaehyun
   m_Note: test04
-  m_AgentPrefab: {fileID: 657716353977145219, guid: 29d6ae13944a1754eb3caae6c9520e63, type: 3}
-  m_Model: {fileID: 5022602860645237092, guid: 3966e7c279528f4408f8ec53aa3d2e1b, type: 3}
+  m_AgentPrefab: {fileID: 657716353977145219, guid: 8fe1aa7e8fa53d347ad79b00f447af6c, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: a7ca22c386e52f34a83e518e7c32135b, type: 3}
   m_Ghost:
-    Mode: 0
-    Model: {fileID: 5022602860645237092, guid: 3966e7c279528f4408f8ec53aa3d2e1b, type: 3}
-    AgentPrefab: {fileID: 657716353977145219, guid: 29d6ae13944a1754eb3caae6c9520e63, type: 3}
+    Mode: 1
+    Model: {fileID: 5022602860645237092, guid: 4a957c0a0b928474bbef7ca1adbc8c04, type: 3}
+    AgentPrefab: {fileID: 1685875874712609360, guid: 5f105be380e1bb8499858399021a89e1, type: 3}
   m_CarPrefab: {fileID: 2136741189975486067, guid: 04b8c6c407f9ee34083afa4e058f49d0, type: 3}
   m_SeedSetAsset: {fileID: 4900000, guid: 0bdb5156f51ca2b4fbec4d31fdddb9f3, type: 3}
   m_Materials:
